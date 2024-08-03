@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import LandingPage from "./Pages/LandingPage";
-import DashboardPage from "./Pages/DashboardPage";
+import ProductsDashBoard from "./Pages/UserProductsPage";
+import CartDashboard from "./Pages/UserCartPage"
+
 import {
   createBrowserRouter,
   RouteProvider,
@@ -17,9 +19,14 @@ const router = createBrowserRouter([
   },
 
   {
-    path:"/dashboard",
-    element: <DashboardPage/>
-    }
+    path:"/products",
+    element: <ProductsDashBoard/>
+  },
+
+  {
+    path:"/cart",
+    element: <CartDashboard/>
+  }
 ]);
 
 

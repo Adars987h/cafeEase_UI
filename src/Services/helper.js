@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getToken } from './user_service'; // Import the getToken function
+import { useState, useEffect } from 'react';
 
 export const BASE_URL = "http://localhost:8081";
 
@@ -20,3 +21,21 @@ myAxios.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+export default useDebounce;
