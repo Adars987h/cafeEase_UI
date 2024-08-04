@@ -5,6 +5,7 @@ import useDebounce from '../../Services/helper';
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BannerBackground from "../../Assets/home-banner-background.png";
+import EmptyCart from "../../Assets/emptycart.svg";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -53,16 +54,23 @@ const Cart = () => {
 
     <div className='cart-container'>
       
-      <div className="home-bannerImage-container">
-        <img src={BannerBackground} alt="" />
+      <div className="home-bannerImage-container bg-container">
+        <img src={BannerBackground} alt="" className='backgoround-img'/>
       </div>
       
       <div className='inner-cart-container'>
         {
           IsCartEmpty(cart) ? (
             <>
-            <h1>No Items in Cart</h1>
-            <div className='total-container'>
+              <div className="cart-img" style={{
+                backgroundImage: `url(${EmptyCart})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                height: '70vh',
+                width: '100vw',
+              }}>
+              </div>
+              <div className='total-container'>
                 <div className='left-side'>
                   <div className='PricePerUnit'>Total Amount - <p className='ProductPrice'>INR 0</p></div>
                 </div>
