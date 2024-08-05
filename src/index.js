@@ -7,6 +7,7 @@ import CartDashboard from "./Pages/UserCartPage"
 import { createBrowserRouter, RouteProvider, Route, RouterProvider } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import OrdersDashboard from "./Pages/UserOrdersPage";
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <CartDashboard />
+  },
+
+  {
+    path: "/orders",
+    element: <OrdersDashboard />
   }
 ]);
 

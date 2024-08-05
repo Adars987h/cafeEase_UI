@@ -12,3 +12,33 @@ export const placeOrderFromCart = async() => {
       throw error;
   }
 };
+
+export const getAllOrdersForUser = async() => {
+
+  try {
+    const response = await myAxios.post("/orders/search", {});
+    const data = response.data.data;
+    return data;
+} catch (error) {
+    console.error('Error fetching orders :', error);
+    throw error;
+}
+};
+
+
+export const getAllOrdersForUserWithSearchRequest = async(orderId, startTime, endTime) => {
+  let reqDto ={
+    "orderId":orderId,
+    "startTime":startTime,
+    "endTime":endTime
+  };
+
+  try {
+    const response = await myAxios.post("/orders/search", reqDto);
+    const data = response.data.data;
+    return data;
+} catch (error) {
+    console.error('Error fetching orders :', error);
+    throw error;
+}
+};

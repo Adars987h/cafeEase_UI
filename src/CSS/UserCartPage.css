@@ -75,3 +75,16 @@
     background-color: rgba(46, 46, 46, 0.241);
     color: black;
   }
+
+  .cart-heading{
+    /* display: block; */
+    width: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 880px){
+    .Cart-Card{
+      width: 90vw;
+    }
+  }

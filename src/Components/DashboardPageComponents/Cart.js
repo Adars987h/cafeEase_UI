@@ -81,10 +81,14 @@ const Cart = () => {
             </>
           ) : (
             <>
+              <div className='cart-heading'>
               <h2>Your Cart</h2>
+              </div>
+              <div className='cart-items-container'>
               {cart.items.map(item => (
                 <CartItems key={item.productId} item={item} setCart={setCart} />
               ))}
+              </div>
 
               <div className='total-container'>
                 <div className='left-side'>

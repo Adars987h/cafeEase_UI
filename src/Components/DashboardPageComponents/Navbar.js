@@ -63,7 +63,7 @@ const Navbar = () => {
       <div className="navbar-links-container">
         <a href="/products">Categories</a>
         <a href="/products" >Products</a>
-        <a href="">Orders</a>
+        <a href="/orders">My Orders</a>
         <a href="" onClick={handleGoToCart}>
           <BsCart2 className="navbar-cart-icon" />
         </a>
