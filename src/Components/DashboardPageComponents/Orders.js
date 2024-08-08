@@ -1,39 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { getAllOrdersForUser, getAllOrdersForUserWithSearchRequest } from '../../Services/order_service';
 import BannerBackground from "../../Assets/home-banner-background.png";
-import NoOrdersImg from "../../Assets/no_orders.png";
-import CalendarIcon from "../../Assets/calendar-icon.png";
-import { DateRange } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import NoOrdersImg from "../../Assets/noOrders.webp";
+import MyCalendar from "../DashboardPageComponents/Calendar";
+import CalendarIcon from "../../Assets/calendar-icon.png"
+
+// import { DateRange } from 'react-date-range';
+// import 'react-date-range/dist/styles.css'; // main css file
+// import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState('');
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [showCalendars, setShowCalendars] = useState(false);
 
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: 'selection'
-    }
-  ]);
-  const [showDateRange, setShowDateRange] = useState(false);
+    const handleDateChange = (startDate, endDate) => {
+        setSelectedStartDate(startDate);
+        setSelectedEndDate(endDate);
+    };
+
+    const toggleCalendars = () => {
+        setShowCalendars(prev => !prev);
+    };
 
 
-  const searchOrders = async () => {
+  const searchOrdersAndHideCalendar = async () => {
     const searchText = document.getElementById('search').value;
     console.log(searchText);
-    const orders = await getAllOrdersForUserWithSearchRequest(searchText);
-    setOrders(orders)
+
+    let orders;
+    try{
+      orders = await getAllOrdersForUserWithSearchRequest(searchText, selectedStartDate, selectedEndDate);
+      setOrders(orders)
+    }catch{
+      setOrders([])
+    }
+    if(showCalendars){
+      toggleCalendars();
+    }
   };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      searchOrders();
+      searchOrdersAndHideCalendar();
     }
   };
 
@@ -71,7 +85,22 @@ const Orders = () => {
         <img src={BannerBackground} alt="" className='backgoround-img' />
       </div>
 
+
       <div className='inner-cart-container'>
+        <div class="search-container">
+          <input type="text" inputmode="numeric" id="search" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Search orders by OrderId..." onKeyDown={handleKeyDown} />
+          <button className='calendar-icon-container' onClick={toggleCalendars}>
+                <img src={CalendarIcon} className='calendar-icon' alt="Calendar Icon" />
+            </button>
+          <button className='card-tag subtle search-btn' onClick={searchOrdersAndHideCalendar}>Search</button>
+        </div>
+        <div className='calendar-container'>
+        <MyCalendar 
+                showCalendars={showCalendars}
+                toggleCalendars={toggleCalendars}
+                onDateChange={handleDateChange}
+            />
+        </div>
         {
           AreOrdersPresent(orders) ? (
             <>
@@ -81,27 +110,14 @@ const Orders = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 height: '800px',
-                width: '40vw',
+                width: '70vw',
               }}>
               </div>
             </>
           ) : (
             <>
               <div>
-                <div class="search-container">
-                  <input type="text" id="search" placeholder="Search orders..." onKeyDown={handleKeyDown} />
-                  <button className='calendar-icon-container' onClick={() => setShowDateRange(!showDateRange)}><img src={CalendarIcon} className='calendar-icon'></img></button>
-                  {showDateRange && (
-                    <DateRange
-                      editableDateInputs={true}
-                      onChange={item => setDateRange([item.selection])}
-                      moveRangeOnFirstSelection={false}
-                      ranges={dateRange}
-                      className="date-range-picker"
-                    />
-                  )}
-                  <button className='card-tag subtle search-btn' onClick={(searchOrders)}>Search</button>
-                </div>
+
                 {orders.map(order => (
                   <Order key={order.orderId} order={order} />
                 ))}

@@ -16,23 +16,24 @@
     width: 710px;
     border: 2px solid #fe9e0d;
     border-radius: 15px;
+    font-size: medium;
 }
 
 .calendar-icon{
     /* margin-top: 10px; */
-    height: 50px;
+    height: 40px;
     border: none;
 }
 
 .calendar-icon-container{
     border: none;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin: 8px;
 }
 
 .search-btn{
     height: 50px;
-    width: 100px;
+    width: 105px;
     background-color: white;
     color: #fe9e0d;
 }
@@ -43,15 +44,18 @@
 }
 
 @media (max-width: 880px){
+    .search-container{
+        width: 100%;
+    }
     #search{
-        width: 65%;
+        width: 72%;
     }
 
     .calendar-icon-container{
-        width: 10%;
+        width: 6%;
     }
 
     .search-btn{
-        width: 15%;
+        width: 19%;
     }
   }

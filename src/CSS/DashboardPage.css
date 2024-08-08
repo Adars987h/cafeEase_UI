@@ -217,6 +217,21 @@ nav {
     cursor: pointer;
   }
 
+  .calendars{
+    display: flex;
+    gap: 5px;
+  }
+
+  .calendar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
   @media (max-width: 1000px) {
     .navbar-links-container a {
       margin-right: 1rem;
@@ -359,6 +374,11 @@ nav {
   
     .App {
       max-width: 95vw;
+    }
+
+    .calendars {
+      flex-direction: column; /* Stack calendars vertically */
+      gap: 10px; /* Adjust spacing between stacked calendars */
     }
   }
   

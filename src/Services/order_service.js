@@ -27,6 +27,9 @@ export const getAllOrdersForUser = async() => {
 
 
 export const getAllOrdersForUserWithSearchRequest = async(orderId, startTime, endTime) => {
+  if (orderId === ''){
+    orderId = null;
+  }
   let reqDto ={
     "orderId":orderId,
     "startTime":startTime,
