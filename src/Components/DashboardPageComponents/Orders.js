@@ -4,6 +4,9 @@ import BannerBackground from "../../Assets/home-banner-background.png";
 import NoOrdersImg from "../../Assets/noOrders.webp";
 import MyCalendar from "../DashboardPageComponents/Calendar";
 import CalendarIcon from "../../Assets/calendar-icon.png"
+import Spinner from './Spinner';
+import {viewBill} from '../../Services/bill_service';
+import BillModal from './BillModal';
 
 // import { DateRange } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main css file
@@ -13,7 +16,6 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchText, setSearchText] = useState('');
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [showCalendars, setShowCalendars] = useState(false);
@@ -55,14 +57,14 @@ const Orders = () => {
     const getOrders = async () => {
       try {
         const orders = await getAllOrdersForUser();
-        console.log("Cart fetched successfully")
+        console.log("Orders fetched successfully")
         setOrders(orders);
         setLoading(false);
 
       } catch (error) {
         setError(error);
         setLoading(false);
-        console.log("Error while fetching cart");
+        console.log("Error while fetching orders");
       }
     };
 
@@ -70,7 +72,7 @@ const Orders = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Spinner/></div>;
   }
 
   if (error) {
@@ -87,8 +89,8 @@ const Orders = () => {
 
 
       <div className='inner-cart-container'>
-        <div class="search-container">
-          <input type="text" inputmode="numeric" id="search" oninput="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="Search orders by OrderId..." onKeyDown={handleKeyDown} />
+        <div className="search-container">
+          <input type="text" inputMode="numeric" id="search" placeholder="Search orders by OrderId..." onKeyDown={handleKeyDown} />
           <button className='calendar-icon-container' onClick={toggleCalendars}>
                 <img src={CalendarIcon} className='calendar-icon' alt="Calendar Icon" />
             </button>
@@ -136,8 +138,25 @@ const AreOrdersPresent = (orders) => {
 }
 
 const Order = ({ order }) => {
+  const [pdfBlob, setPdfBlob] = useState(null);
+  const [showBillModal, setShowBillModal] = useState(false);
+  const handleBillOpening = async (orderId) => {
+    try {
+        const blob = await viewBill(orderId);
+        setPdfBlob(blob);
+        setShowBillModal(true);
+    } catch (error) {
+        console.error('Error fetching and displaying the PDF', error);
+    }
+};
+
+const handleCloseModal = () => {
+    setShowBillModal(false);
+    setPdfBlob(null);
+};
 
   return (
+    <div>
     <div className='Cart-Card'>
       <div className='left-side'>
         <h3 className='ProductName'>{order.orderId}</h3>
@@ -149,8 +168,13 @@ const Order = ({ order }) => {
       <div className='addCartOptions right-side'>
 
         <button className='card-tag subtle view-order-btn' >View Order Detail</button>
-        <button className='card-tag subtle' >Download bill</button>
+        <button className='card-tag subtle' onClick={() => handleBillOpening(order.orderId)}>Download bill</button>
+        
       </div>
+    </div>
+    {showBillModal && (
+                <BillModal pdfBlob={pdfBlob} onClose={handleCloseModal} />
+            )}
     </div>
   );
 };

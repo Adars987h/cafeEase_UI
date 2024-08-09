@@ -6,6 +6,7 @@ import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BannerBackground from "../../Assets/home-banner-background.png";
 import EmptyCart from "../../Assets/emptycart.svg";
+import Spinner from './Spinner';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -43,7 +44,7 @@ const Cart = () => {
 }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Spinner/></div>;
   }
 
   if (error) {

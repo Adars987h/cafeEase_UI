@@ -4,6 +4,7 @@ import MenuCard from './menuCard';
 import BannerBackground from "../../Assets/home-banner-background.png";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Spinner from './Spinner';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,7 @@ const Products = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Spinner/></div>;
   }
 
   if (error) {
