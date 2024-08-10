@@ -5,12 +5,10 @@ import NoOrdersImg from "../../Assets/noOrders.webp";
 import MyCalendar from "../DashboardPageComponents/Calendar";
 import CalendarIcon from "../../Assets/calendar-icon.png"
 import Spinner from './Spinner';
-import {viewBill} from '../../Services/bill_service';
+import { viewBill } from '../../Services/bill_service';
 import BillModal from './BillModal';
+import OrderDetailsModal from './OrderDetailsModal';
 
-// import { DateRange } from 'react-date-range';
-// import 'react-date-range/dist/styles.css'; // main css file
-// import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -20,14 +18,14 @@ const Orders = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [showCalendars, setShowCalendars] = useState(false);
 
-    const handleDateChange = (startDate, endDate) => {
-        setSelectedStartDate(startDate);
-        setSelectedEndDate(endDate);
-    };
+  const handleDateChange = (startDate, endDate) => {
+    setSelectedStartDate(startDate);
+    setSelectedEndDate(endDate);
+  };
 
-    const toggleCalendars = () => {
-        setShowCalendars(prev => !prev);
-    };
+  const toggleCalendars = () => {
+    setShowCalendars(prev => !prev);
+  };
 
 
   const searchOrdersAndHideCalendar = async () => {
@@ -35,13 +33,13 @@ const Orders = () => {
     console.log(searchText);
 
     let orders;
-    try{
+    try {
       orders = await getAllOrdersForUserWithSearchRequest(searchText, selectedStartDate, selectedEndDate);
       setOrders(orders)
-    }catch{
+    } catch {
       setOrders([])
     }
-    if(showCalendars){
+    if (showCalendars) {
       toggleCalendars();
     }
   };
@@ -72,7 +70,7 @@ const Orders = () => {
   }, []);
 
   if (loading) {
-    return <div><Spinner/></div>;
+    return <div><Spinner /></div>;
   }
 
   if (error) {
@@ -92,16 +90,16 @@ const Orders = () => {
         <div className="search-container">
           <input type="text" inputMode="numeric" id="search" placeholder="Search orders by OrderId..." onKeyDown={handleKeyDown} />
           <button className='calendar-icon-container' onClick={toggleCalendars}>
-                <img src={CalendarIcon} className='calendar-icon' alt="Calendar Icon" />
-            </button>
+            <img src={CalendarIcon} className='calendar-icon' alt="Calendar Icon" />
+          </button>
           <button className='card-tag subtle search-btn' onClick={searchOrdersAndHideCalendar}>Search</button>
         </div>
         <div className='calendar-container'>
-        <MyCalendar 
-                showCalendars={showCalendars}
-                toggleCalendars={toggleCalendars}
-                onDateChange={handleDateChange}
-            />
+          <MyCalendar
+            showCalendars={showCalendars}
+            toggleCalendars={toggleCalendars}
+            onDateChange={handleDateChange}
+          />
         </div>
         {
           AreOrdersPresent(orders) ? (
@@ -140,46 +138,60 @@ const AreOrdersPresent = (orders) => {
 const Order = ({ order }) => {
   const [pdfBlob, setPdfBlob] = useState(null);
   const [showBillModal, setShowBillModal] = useState(false);
+  const [showOrderDetailsModal, setShowOrderDetailsModal] = useState(false);
+
   const handleBillOpening = async (orderId) => {
     try {
-        const blob = await viewBill(orderId);
-        setPdfBlob(blob);
-        setShowBillModal(true);
+      const blob = await viewBill(orderId);
+      setPdfBlob(blob);
+      setShowBillModal(true);
     } catch (error) {
-        console.error('Error fetching and displaying the PDF', error);
+      console.error('Error fetching and displaying the PDF', error);
     }
-};
+  };
 
-const handleCloseModal = () => {
+  const handleDetailsOpening = async () => {
+    try {
+      setShowOrderDetailsModal(true);
+    } catch (error) {
+      console.error('Error displaying order detail', error);
+    }
+  };
+
+  const handleCloseModal = () => {
     setShowBillModal(false);
+    setShowOrderDetailsModal(false);
     setPdfBlob(null);
-};
+  };
 
   return (
     <div>
-    <div className='Cart-Card'>
-      <div className='left-side'>
-        <h3 className='ProductName'>{order.orderId}</h3>
-        <div className='PricePerUnit'>Order Date - <p className='ProductPrice'>{GetDate(order.orderDateAndTime)}</p></div>
-        <div className='OverallPrice'>Order Status - <p className='ProductPrice'>{order.orderStatus}</p></div>
-        <div className='PricePerUnit'>Total Quantity - <p className='ProductPrice'>{order.totalQuantity}</p></div>
-        <div className='OverallPrice'>Total Amount - <p className='ProductPrice overall'> INR  {order.totalAmount}</p></div>
-      </div>
-      <div className='addCartOptions right-side'>
+      <div className='Cart-Card'>
+        <div className='left-side'>
+          <h3 className='ProductName'>{order.orderId}</h3>
+          <div>Order Date - <p className='ProductPrice'>{GetDate(order.orderDateAndTime)}</p></div>
+          <div>Order Status - <p className='ProductPrice'>{order.orderStatus}</p></div>
+          <div>Total Quantity - <p className='ProductPrice'>{order.totalQuantity}</p></div>
+          <div>Total Amount - <p className='ProductPrice overall'> INR  {order.totalAmount}</p></div>
+        </div>
+        <div className='right-side'>
 
-        <button className='card-tag subtle view-order-btn' >View Order Detail</button>
-        <button className='card-tag subtle' onClick={() => handleBillOpening(order.orderId)}>Download bill</button>
-        
+          <button className='card-tag subtle view-order-btn' onClick={() => handleDetailsOpening()} >View Order Detail</button>
+          <button className='card-tag subtle' onClick={() => handleBillOpening(order.orderId)}>Download bill</button>
+
+        </div>
       </div>
-    </div>
-    {showBillModal && (
-                <BillModal pdfBlob={pdfBlob} onClose={handleCloseModal} />
-            )}
+      {showBillModal && (
+        <BillModal pdfBlob={pdfBlob} onClose={handleCloseModal} />
+      )}
+      {showOrderDetailsModal && (
+        <OrderDetailsModal order={order} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };
 
-const GetDate = (dateTime) => {
+export const GetDate = (dateTime) => {
   const dateObject = new Date(dateTime);
 
   const year = dateObject.getFullYear();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../../CSS/BillModal.css"
+import "../../CSS/Modal.css"
 
 const BillModal = ({ pdfBlob, onClose }) => {
     const [url, setUrl] = useState(null);

@@ -162,12 +162,12 @@ const CartItems = ({ item, setCart }) => {
     <div className='Cart-Card'>
       <div className='left-side'>
         <h3 className='ProductName'>{item.productName}</h3>
-        <div className='PricePerUnit'>Price Per Unit - <p className='ProductPrice'>INR {item.pricePerUnit}</p></div>
-        <div className='OverallPrice'>Overall Price - <p className='ProductPrice overall'>INR {item.price}</p></div>
+        <div>Price Per Unit - <p className='ProductPrice'>INR {item.pricePerUnit}</p></div>
+        <div>Overall Price - <p className='ProductPrice overall'>INR {item.price}</p></div>
       </div>
       <div className='addCartOptions right-side'>
         <input type="number" id="quantity" className='ProductQuantity item-quantity' name="quantity" placeholder='Quantity' min="0" value={inputValue} onChange={handleInputChange} />
-        <button className='card-tag subtle' onClick={() => handleRemoveFromCart(item.productId)}>Remove from Cart</button>
+        <button className='remove-item-btn subtle' onClick={() => handleRemoveFromCart(item.productId)}>Remove from Cart</button>
       </div>
     </div>
   );
