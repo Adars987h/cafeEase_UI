@@ -8,12 +8,18 @@ import { createBrowserRouter, RouteProvider, Route, RouterProvider } from "react
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OrdersDashboard from "./Pages/UserOrdersPage";
+import CategoriesDashboard from "./Pages/UserCategoriesPage";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+  },
+
+  {
+    path: "/categories",
+    element: <CategoriesDashboard />
   },
 
   {

@@ -22,7 +22,7 @@ const Navbar = () => {
   const menuOptions = [
     {
       text: "Categories",
-      href:"/products",
+      href:"/categories",
       icon: <HomeIcon />,
     },
     {
@@ -32,7 +32,7 @@ const Navbar = () => {
     },
     {
       text: "Orders",
-      href:"",
+      href:"/orders",
       icon: <PhoneRoundedIcon />,
     },
     {
@@ -61,7 +61,7 @@ const Navbar = () => {
         <img src={icon} alt="CafeEase" width={200} />
       </div>
       <div className="navbar-links-container">
-        <a href="/products">Categories</a>
+        <a href="/categories">Categories</a>
         <a href="/products" >Products</a>
         <a href="/orders">My Orders</a>
         <a href="" onClick={handleGoToCart}>
