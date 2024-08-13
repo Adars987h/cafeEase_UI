@@ -28,6 +28,11 @@ const router = createBrowserRouter([
   },
 
   {
+    path: "/products/category/:id",
+    element: <ProductsDashBoard/>
+  },
+
+  {
     path: "/cart",
     element: <CartDashboard />
   },

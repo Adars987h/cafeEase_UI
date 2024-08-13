@@ -3,8 +3,9 @@ import { fetchCategories } from '../../Services/category_service';
 import 'react-toastify/dist/ReactToastify.css';
 import BannerBackground from "../../Assets/home-banner-background.png";
 import DefaultImage from  "../../Assets/no-image.png";
-import '../../CSS/LandingPage.css';
+import '../../CSS/UserCategories.css';
 import Spinner from './Spinner';
+import { useNavigate } from "react-router-dom";
 
 const Category = () => {
     const [categories, setCategories] = useState([]);
@@ -46,7 +47,7 @@ const Category = () => {
                 <img src={BannerBackground} alt="" className='backgoround-img' />
             </div>
 
-            <div className="category-section-wrapper" id="Category">
+            <div id="Category">
 
                 <div className="category-section-bottom">
                 
@@ -62,6 +63,11 @@ const Category = () => {
 };
 
 const CategoryItem = ({ category }) => {
+    const navigate = useNavigate();
+    const handleViewProducts =(categoryId) =>{
+        navigate("/products/category/"+categoryId);
+    };
+
     console.log(category);
     return (
         <div className="category-section-info">
@@ -69,7 +75,7 @@ const CategoryItem = ({ category }) => {
                 <img src={category.image ? `data:image/jpeg;base64,${category.image}`: DefaultImage} alt={"No image"} className="top-category-img" />
             </div>
             <h2>{category.name}</h2>
-            <p>{category.name}</p>
+            <button className='card-tag subtle' onClick={() => handleViewProducts(category.id)}>View Products</button>
         </div>
 
     );
