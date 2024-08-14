@@ -55,13 +55,17 @@
     gap: 200px;
 }
 
+embed{
+    width: 100%;
+}
+
 @media (max-width: 700px) {
     .detail-footer {
         gap: 50px;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .detail-footer {
         gap: 10px;
         flex-direction: column;

@@ -1,10 +1,12 @@
 .card-tag {
     background-color: #fe9e0d;
     color: white;
+    height: auto;
 }
 
 .card-tag:hover {
-    color: #000;
+    color: #fe9e0d;
+    background-color: white;
 }
 
 .category-section-info {
@@ -27,4 +29,12 @@
     border-radius: 25px;
     height: 300px;
     /* margin: 10px; */
+}
+
+@media (max-width: 450px) {
+
+    .card-tag{
+        color: #fe9e0d;
+        background-color: white;
+    }
 }

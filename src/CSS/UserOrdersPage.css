@@ -63,7 +63,7 @@
 @media (max-width: 450px) {
     .search-container {
         width: 100vw;
-        padding: 0px;
+        padding: 10px;
     }
 
     #search {
@@ -75,10 +75,17 @@
     }
 
     .search-btn {
-        width: 24%;
+        width: 25%;
+        padding: auto;
+        color: white;
+        background-color: #fe9e0d;
     }
 
     .view-order-btn {
         margin-bottom: 0px;
+    }
+
+    .Cart-Card{
+        margin: 20px;
     }
 }

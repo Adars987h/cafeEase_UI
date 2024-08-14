@@ -103,7 +103,7 @@
 
 @media (max-width: 880px) {
   .Cart-Card {
-    width: 90vw;
+    width: 85vw;
   }
 }
 
@@ -130,5 +130,12 @@
 
   .ProductName {
     font-size: 25px;
+  }
+
+  .item-quantity{
+    margin: 0px;
+  }
+  .remove-item-btn{
+    margin: 0px;
   }
 }
