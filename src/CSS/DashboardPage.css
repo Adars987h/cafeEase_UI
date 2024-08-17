@@ -118,6 +118,8 @@ body {
 .ProductDescription {
   font-size: 0.9em;
   color: #666;
+  height: 80px;
+  text-overflow: clip;
 }
 
 .ProductPrice {

@@ -66,9 +66,11 @@ export default Products;
 async function setIdToQuantityMapFromCart(setCartItemsIdToQuantityMap) {
   const cart = await fetchCart();
   const map = new Map();
-  cart.items.forEach((item) => {
-    map.set(item.productId, item.quantity);
-  });
-  setCartItemsIdToQuantityMap(map);
+  if (cart !== null) {
+    cart.items.forEach((item) => {
+      map.set(item.productId, item.quantity);
+    });
+    setCartItemsIdToQuantityMap(map);
+  }
 }
 
