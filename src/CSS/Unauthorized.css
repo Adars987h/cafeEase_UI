@@ -23,7 +23,7 @@
   
   .unauthorized-title {
     font-size: 3rem;
-    color: #ff4d4f;
+    color: var(--danger-fg);
     margin-bottom: 1rem;
   }
   
@@ -39,13 +39,13 @@
     cursor: pointer;
     border: none;
     box-shadow: 0 0 10px rgba(0, 0, 0,.2);
-    background-color: #ffffff;
-    color: #000;
+    background-color: var(--surface-card);
+    color: var(--text-primary);
     border-radius: 20px;
   }
   
   .unauthorized-button:hover {
-    background-color: #fe9e0d;
+    background-color: var(--accent);
   }
 
   .stop-icon {

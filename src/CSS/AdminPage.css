@@ -9,9 +9,9 @@
     width: 150px;
     position: fixed;
 
-    /* background-color: #f0f0f0; */
-    background-color: #fe9e0d;
-    /* border-right: 10px solid #ccc; */
+    /* background-color: var(--surface-sunken); */
+    background-color: var(--accent);
+    /* border-right: 10px solid var(--border); */
     height:100vh;
 }
 
@@ -28,7 +28,7 @@
 .admin-page-nav a {
     display: block;
     padding: 10px;
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
 }
 
@@ -47,14 +47,14 @@
     
     border-radius: 10px 0px 0px 10px;
     background-color: white;
-    color: rgb(36, 36, 36);
+    color: var(--text-primary);
 }
 
 .admin-page-nav a:hover {
     
     border-radius: 10px 0px 0px 10px;
     background-color: white;
-    color: rgb(36, 36, 36);
+    color: var(--text-primary);
 }
 
 .admin-page-content {
@@ -71,7 +71,7 @@
   
   .vertical-navbar {
     grid-column: 1;
-    background-color: #333;
+    background-color: var(--text-primary);
     color: white;
     height: 100%;
     overflow-y: auto;
@@ -91,7 +91,7 @@
     /* .admin-page-nav {
         width: fit-content;
         border-right: none;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid var(--border);
     } */
 
     .admin-page-content {

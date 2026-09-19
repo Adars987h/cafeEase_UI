@@ -11,16 +11,16 @@
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--surface-card);
     margin: 50px auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--text-muted);
     width: 80%;
     max-width: 800px;
 }
 
 .close {
-    color: #aaa;
+    color: var(--text-muted);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -34,7 +34,7 @@
 }
 
 .order-item-card {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
     margin: 16px;
