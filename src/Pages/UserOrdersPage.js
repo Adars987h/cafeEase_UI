@@ -1,6 +1,4 @@
 import "../CSS/DashboardPage.css";
-import "../CSS/UserCartPage.css";
-import "../CSS/UserOrdersPage.css";
 
 import React from 'react';
 import Navbar from '../Components/DashboardPageComponents/Navbar';
