@@ -105,9 +105,14 @@
    as `* { font-family: ... !important }`, which overrode every MUI component and
    forced per-component overrides elsewhere. The font now comes from the theme. */
 
+/* The margin/padding zeroing is load-bearing: the original rule reset every
+   element, and the layout is built on that. Only the !important font needed
+   to go, so the rest of the reset stays. */
 *,
 *::before,
 *::after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
