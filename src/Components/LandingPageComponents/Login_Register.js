@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LoginPanelImage from "../../Assets/login-background-image.png";
+import LoginPanelImage from "../../Assets/login-chai.jpg";
 import { signUp, login, forgotPassword } from "../../Services/user_service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

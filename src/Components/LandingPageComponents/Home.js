@@ -1,5 +1,5 @@
 import React from "react";
-import HeroImage from "../../Assets/home-banner-image.png";
+import HeroImage from "../../Assets/hero-pizza.jpg";
 import { FiArrowRight } from "react-icons/fi";
 
 /**
@@ -48,13 +48,13 @@ const Home = () => {
           </div>
         </div>
         <div className="home-image-section">
-          <img src={HeroImage} alt="Wood-fired pizza fresh from the counter" />
+          <img src={HeroImage} alt="Paneer Capsicum Pizza fresh from the counter" />
           <div className="hero-floating-card">
             <div className="hero-floating-card-text">
-              <span className="hero-floating-card-title">Corn &amp; Capsicum Pizza</span>
+              <span className="hero-floating-card-title">Paneer Capsicum Pizza</span>
               <span className="hero-floating-card-meta">Today&#39;s most ordered</span>
             </div>
-            <span className="hero-floating-card-price">&#8377;199</span>
+            <span className="hero-floating-card-price">&#8377;109</span>
           </div>
         </div>
       </div>
