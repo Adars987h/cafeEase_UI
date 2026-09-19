@@ -1,11 +1,13 @@
 import React from 'react';
 import { TextField } from '@mui/material';
 
-const SearchBar = ({ onSearch }) => (
-  <TextField style={{ paddingRight: '10px'}}
+const SearchBar = ({ value, onSearch }) => (
+  <TextField
     placeholder="Search products..."
+    value={value}
     onChange={(e) => onSearch(e.target.value)}
-    fullWidth
+    size="small"
+    sx={{ minWidth: 260 }}
   />
 );
 

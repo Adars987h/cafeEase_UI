@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Stack,Box, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { TextField, Button, Stack, Box, FormControl, InputLabel, Select, MenuItem, Avatar } from '@mui/material';
 
 const ProductForm = ({ onSave, selectedProduct, categories }) => {
   const [product, setProduct] = useState({
@@ -8,10 +8,13 @@ const ProductForm = ({ onSave, selectedProduct, categories }) => {
     description: '',
     price: '',
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     if (selectedProduct) {
       setProduct(selectedProduct);
+      setPreviewUrl(selectedProduct.image ? `data:image/jpeg;base64,${selectedProduct.image}` : null);
     } else {
       setProduct({
         name: '',
@@ -19,7 +22,9 @@ const ProductForm = ({ onSave, selectedProduct, categories }) => {
         description: '',
         price: '',
       });
+      setPreviewUrl(null);
     }
+    setImageFile(null);
   }, [selectedProduct]);
 
   const handleChange = (e) => {
@@ -27,14 +32,21 @@ const ProductForm = ({ onSave, selectedProduct, categories }) => {
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImageFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(product);
+    onSave({ ...product, imageFile });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      
+
       <Stack spacing={2} paddingTop={1}>
         <Box display="flex" gap={2}>
           <TextField
@@ -62,7 +74,7 @@ const ProductForm = ({ onSave, selectedProduct, categories }) => {
             </Select>
           </FormControl>
         </Box>
-        
+
         <TextField
           fullWidth
           label="Description"
@@ -80,7 +92,17 @@ const ProductForm = ({ onSave, selectedProduct, categories }) => {
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*',title: 'Price can only be numeric.', }}
           required
         />
-      
+
+        <Box display="flex" alignItems="center" gap={2}>
+          <Avatar src={previewUrl} variant="rounded" sx={{ width: 64, height: 64 }}>
+            {product.name ? product.name.slice(0, 2).toUpperCase() : ''}
+          </Avatar>
+          <Button variant="outlined" component="label">
+            {previewUrl ? 'Replace photo' : 'Add photo'}
+            <input type="file" accept="image/*" hidden onChange={handleImageChange} />
+          </Button>
+        </Box>
+
         <Button type="submit" variant="contained" color="primary">
           {selectedProduct ? 'Update' : 'Add'} Product
         </Button>

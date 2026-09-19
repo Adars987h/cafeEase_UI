@@ -1,6 +1,12 @@
 
 import { myAxios } from "./helper";
 
+// Public, no auth required -- aggregate-only (no customer data).
+export const getTopSellerToday = async () => {
+    const response = await myAxios.get("/orders/top-seller");
+    return response.data.data;
+};
+
 export const placeOrderFromCart = async() => {
 
     try {

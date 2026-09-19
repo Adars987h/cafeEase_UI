@@ -1,78 +1,82 @@
+/* Shared modal shell -- order detail, bill, and admin product edit all use
+   this. 24px radius, an ink overlay, header/body/footer bands. */
+
 .modal {
-    display: block;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: rgba(26, 19, 16, 0.55);
 }
 
 .modal-content {
-    background-color: var(--surface-card);
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid var(--text-muted);
-    width: 80%;
-    max-width: 800px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-overlay);
+  overflow: hidden;
 }
 
-.close {
-    color: var(--text-muted);
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal-content--wide {
+  max-width: 760px;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--border);
 }
 
-.order-item-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
-    width: auto;
-    background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.modal-header h3 {
+  font-size: var(--text-h3);
 }
 
-.details-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  cursor: pointer;
+  flex: none;
 }
 
-.detail-footer {
-    flex-direction: row;
-    gap: 200px;
+.modal-close:hover {
+  background: var(--surface-sunken);
+  color: var(--text-primary);
 }
 
-embed{
-    width: 100%;
+.modal-body {
+  padding: var(--space-5);
+  overflow-y: auto;
 }
 
-@media (max-width: 700px) {
-    .detail-footer {
-        gap: 50px;
-    }
+.modal-body--flush {
+  padding: 0;
 }
 
-@media (max-width: 450px) {
-    .detail-footer {
-        gap: 10px;
-        flex-direction: column;
-    }
+.modal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border-top: 1px solid var(--border);
+}
 
-    .modal-content {
-        margin: 30px auto;
-        padding: 10px;
-    }
+@media (max-width: 600px) {
+  .modal-content {
+    max-height: 92vh;
+  }
 }
