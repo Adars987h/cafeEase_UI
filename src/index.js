@@ -8,6 +8,10 @@ import Unauthorized from "./Pages/Unauthorized";
 import NotFound from "./Pages/NotFound";
 import ProtectedRoute from "./Services/ProtectedRoute";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./theme";
+import "./CSS/tokens.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CategoriesDashboard from "./Pages/UserCategoriesPage";
@@ -63,7 +67,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ToastContainer />
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
