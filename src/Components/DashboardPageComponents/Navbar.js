@@ -16,14 +16,14 @@ import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { logout, getCurrentUser } from "../../Services/user_service";
+import { logout, getCurrentUser, fetchProfile } from "../../Services/user_service";
 import { fetchCart } from "../../Services/cart_service";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [user, setUser] = useState(getCurrentUser());
   const navigate = useNavigate();
-  const user = getCurrentUser();
 
   useEffect(() => {
     let mounted = true;
@@ -33,6 +33,7 @@ const Navbar = () => {
         setCartCount(cart.items.reduce((sum, item) => sum + item.quantity, 0));
       })
       .catch(() => {});
+    fetchProfile().then((profile) => { if (mounted && profile) setUser(profile); });
     return () => { mounted = false; };
   }, []);
 

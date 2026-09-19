@@ -17,24 +17,28 @@ import "../CSS/AdminPage.css";
 const AdminPage = () => {
 
   return (
-    <div className='admin-dashboard'>
-      <div className="vertical-navbar">
-        <Navbar />
-      </div>
+    <>
+      {/* Outside .admin-shell on purpose: react-toastify positions itself
+          fixed regardless, but as a sibling of Navbar/main it was still
+          counted as a grid item first, which pushed both into unpredictable
+          auto-placed rows/columns. */}
       <ToastContainer/>
-      <div className="admin-content">
-        <Routes>
-          <Route path="/products" element={<Product />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="/bill" element={<Bill />} />
-          <Route path="/" element={<Home/>} />
-          <Route path="/*" element={<NotFound />} />
+      <div className='admin-shell'>
+        <Navbar />
+        <main className="admin-main">
+          <Routes>
+            <Route path="/products" element={<Product />} />
+            <Route path="/category" element={<Category />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/bill" element={<Bill />} />
+            <Route path="/" element={<Home/>} />
+            <Route path="/*" element={<NotFound />} />
 
-        </Routes>
+          </Routes>
+        </main>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,11 +1,10 @@
-import React from "react";
-import { getCurrentUser } from "../../Services/user_service";
+import React, { useEffect, useState } from "react";
+import { getCurrentUser, fetchProfile } from "../../Services/user_service";
 
 /**
  * Greeting header for the Categories page. Was a static "Welcome / Browse
- * through your favourites....." block; now reflects the signed-in user (from
- * the token, since there is no "get my profile" endpoint to fetch a display
- * name from) and the time of day.
+ * through your favourites....." block; now reflects the signed-in user's
+ * real name (via GET /user/profile) and the time of day.
  */
 const greeting = () => {
   const hour = new Date().getHours();
@@ -15,7 +14,13 @@ const greeting = () => {
 };
 
 const Home = () => {
-  const user = getCurrentUser();
+  const [user, setUser] = useState(getCurrentUser());
+
+  useEffect(() => {
+    let mounted = true;
+    fetchProfile().then((profile) => { if (mounted && profile) setUser(profile); });
+    return () => { mounted = false; };
+  }, []);
 
   return (
     <div className="dashboard-greeting">

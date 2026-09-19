@@ -10,3 +10,24 @@ export const fetchCategories = async () => {
         throw error;
     }
 };
+
+// Add/update take multipart/form-data because the backend accepts an
+// optional image file alongside the name.
+export const addCategory = async (name) => {
+    const form = new FormData();
+    form.append('name', name);
+    const response = await myAxios.post('/category', form);
+    return response.data;
+};
+
+export const updateCategory = async (id, name) => {
+    const form = new FormData();
+    form.append('name', name);
+    const response = await myAxios.put(`/category/${id}`, form);
+    return response.data;
+};
+
+export const deleteCategory = async (id) => {
+    const response = await myAxios.delete(`/category/${id}`);
+    return response.data;
+};

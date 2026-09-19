@@ -50,9 +50,8 @@ export const getToken = () => {
     return Cookies.get('token');
 };
 
-// The token only carries an email (as the JWT subject) and a role -- there is
-// no "get my own profile" endpoint, so a display name is not available. The
-// nav uses the email local-part instead of inventing a name.
+// Synchronous fallback derived purely from the JWT (email + role), used for
+// the first render before fetchProfile() resolves, and if that call fails.
 export const getCurrentUser = () => {
     const token = getToken();
     if (!token) return null;
@@ -74,6 +73,37 @@ export const getCurrentUser = () => {
     } catch {
         return null;
     }
+};
+
+// The real name, fetched from GET /user/profile. Falls back to the
+// email-derived label above if the call fails for any reason.
+export const fetchProfile = async () => {
+    try {
+        const response = await myAxios.get('/user/profile');
+        const user = response.data.data;
+        const label = user.name || getCurrentUser()?.label || user.email;
+        const initials = label
+            .split(' ')
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((w) => w[0].toUpperCase())
+            .join('') || 'U';
+        return { ...user, label, initials };
+    } catch (error) {
+        console.error('Error fetching profile:', error);
+        return getCurrentUser();
+    }
+};
+
+// Admin-only: list/enable/disable customer accounts.
+export const getAllUsers = async () => {
+    const response = await myAxios.get('/user/get');
+    return response.data.data;
+};
+
+export const updateUserStatus = async (id, status) => {
+    const response = await myAxios.post('/user/update', { id: String(id), status: String(status) });
+    return response.data;
 };
 
 export const logout=()=>{

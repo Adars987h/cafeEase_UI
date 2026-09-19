@@ -1,31 +1,12 @@
-
-.top_div{
-  
-    display: flex;
-    padding-bottom: 30px;
-  }
-  
-  #qwe{
-    background-color: var(--accent);
-  }
-  
-  .App-link {
-    color: var(--accent);
-  }
-  
-  
-/* This file previously had no media queries at all. */
 .top_div {
+  display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
   align-items: center;
+  padding-bottom: var(--space-2);
 }
 
 @media (max-width: 768px) {
-  .top_div {
-    padding-bottom: var(--space-4);
-  }
-
   .top_div > * {
     flex: 1 1 100%;
   }
