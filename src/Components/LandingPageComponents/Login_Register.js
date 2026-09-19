@@ -22,8 +22,6 @@ const Login_Register = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Email:', email);
-    console.log('Password:', password);
 
     const loginDetails = {
       email,
@@ -37,7 +35,6 @@ const Login_Register = () => {
       if (resp) {
         try {
           decodedToken = jwtDecode(resp);
-          console.log("role : ",decodedToken.role);
         } catch (error) {
           console.error('Error decoding JWT:', error);
         }
@@ -73,10 +70,6 @@ const Login_Register = () => {
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Name', name);
-    console.log('Email:', email);
-    console.log('Contact:', contact);
-    console.log('Password:', password);
 
     const signupDetails = new Map();
     signupDetails.set('name', name);
