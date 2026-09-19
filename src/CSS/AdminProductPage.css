@@ -14,3 +14,19 @@
   }
   
   
+/* This file previously had no media queries at all. */
+.top_div {
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .top_div {
+    padding-bottom: var(--space-4);
+  }
+
+  .top_div > * {
+    flex: 1 1 100%;
+  }
+}
