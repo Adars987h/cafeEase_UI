@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeroImage from "../../Assets/hero-pizza.jpg";
 import { FiArrowRight } from "react-icons/fi";
+import { fetchCategories } from "../../Services/category_service";
+import { productList } from "../../Services/product_service";
+import { getTopSellerToday } from "../../Services/order_service";
 
 /**
- * The hero used to be a decorative blob behind one generic sentence. This
- * version sells a specific counter: hours, a location, a price entry point,
- * and today's most-ordered item, so a first-time visitor knows what they are
- * about to order before they scroll any further.
+ * The hero used to be a decorative blob behind one generic sentence, then a
+ * restyle that carried three fabricated stats (a star rating with no review
+ * system behind it, a "since 2019" price, an average pickup time nothing
+ * tracks) and a "today's most ordered" claim with no way to know what
+ * actually sells. /category and /product were also auth-only, so a
+ * pre-login visitor could not have been shown real numbers even by
+ * accident. All of it is real now: catalogue size and starting price come
+ * from the public menu endpoints, and the featured dish comes from
+ * GET /orders/top-seller (aggregate quantity sold today, no customer data).
  */
 const Home = () => {
+  const [stats, setStats] = useState(null);
+  const [topSeller, setTopSeller] = useState(null);
+
+  useEffect(() => {
+    Promise.all([fetchCategories(), productList()])
+      .then(([categories, products]) => {
+        const prices = (products || []).map((p) => p.price);
+        setStats({
+          itemCount: products?.length || 0,
+          categoryCount: categories?.length || 0,
+          minPrice: prices.length ? Math.min(...prices) : null,
+        });
+      })
+      .catch(() => setStats({ itemCount: null, categoryCount: null, minPrice: null }));
+
+    getTopSellerToday()
+      .then(setTopSeller)
+      .catch(() => setTopSeller(null));
+  }, []);
+
   return (
     <div className="home-container" id="Home">
       <div className="home-banner-container">
@@ -34,28 +62,32 @@ const Home = () => {
           </div>
           <div className="hero-stat-row">
             <div className="hero-stat">
-              <span className="hero-stat-value">4.7 &#9733;</span>
-              <span className="hero-stat-label">1,240 ratings</span>
+              <span className="hero-stat-value">{stats?.itemCount ?? "–"}</span>
+              <span className="hero-stat-label">Dishes on the menu</span>
             </div>
             <div className="hero-stat">
-              <span className="hero-stat-value">&#8377;60</span>
-              <span className="hero-stat-label">Chai, since 2019</span>
+              <span className="hero-stat-value">
+                {stats?.minPrice != null ? `₹${stats.minPrice}` : "–"}
+              </span>
+              <span className="hero-stat-label">Starting price</span>
             </div>
             <div className="hero-stat">
-              <span className="hero-stat-value">8 min</span>
-              <span className="hero-stat-label">Average pickup</span>
+              <span className="hero-stat-value">{stats?.categoryCount ?? "–"}</span>
+              <span className="hero-stat-label">Categories to explore</span>
             </div>
           </div>
         </div>
         <div className="home-image-section">
           <img src={HeroImage} alt="Paneer Capsicum Pizza fresh from the counter" />
-          <div className="hero-floating-card">
-            <div className="hero-floating-card-text">
-              <span className="hero-floating-card-title">Paneer Capsicum Pizza</span>
-              <span className="hero-floating-card-meta">Today&#39;s most ordered</span>
+          {topSeller && (
+            <div className="hero-floating-card">
+              <div className="hero-floating-card-text">
+                <span className="hero-floating-card-title">{topSeller.productName}</span>
+                <span className="hero-floating-card-meta">Today&#39;s most ordered</span>
+              </div>
+              <span className="hero-floating-card-price">&#8377;{topSeller.price}</span>
             </div>
-            <span className="hero-floating-card-price">&#8377;109</span>
-          </div>
+          )}
         </div>
       </div>
     </div>
