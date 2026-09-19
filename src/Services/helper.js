@@ -15,14 +15,50 @@ export const myAxios = axios.create({
     },
 });
 
+// The deployed backend sleeps when idle and takes ~150s to start, so a request
+// hanging for several seconds is expected rather than broken. Track in-flight
+// requests and announce a slow spell so the UI can explain the wait.
+// 4s is comfortably above normal round-trip latency but well short of the wake time.
+const SLOW_REQUEST_MS = 4000;
+let pending = 0;
+let slowTimer = null;
+
+const requestStarted = () => {
+    pending += 1;
+    if (slowTimer === null) {
+        slowTimer = setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('api:slow'));
+        }, SLOW_REQUEST_MS);
+    }
+};
+
+const requestSettled = () => {
+    pending = Math.max(0, pending - 1);
+    if (pending === 0) {
+        clearTimeout(slowTimer);
+        slowTimer = null;
+        window.dispatchEvent(new CustomEvent('api:settled'));
+    }
+};
+
 // Add a request interceptor to include the token in headers
 myAxios.interceptors.request.use((config) => {
+    requestStarted();
     const token = getToken();
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 }, (error) => {
+    requestSettled();
+    return Promise.reject(error);
+});
+
+myAxios.interceptors.response.use((response) => {
+    requestSettled();
+    return response;
+}, (error) => {
+    requestSettled();
     return Promise.reject(error);
 });
 

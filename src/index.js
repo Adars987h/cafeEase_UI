@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
+import ColdStartNotice from "./Components/ColdStartNotice";
 import "./CSS/tokens.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,27 +27,27 @@ const router = createBrowserRouter([
 
   {
     path: "/categories",
-    element: <CategoriesDashboard />
+    element: <ProtectedRoute element={<CategoriesDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/products",
-    element: <ProductsDashBoard />
+    element: <ProtectedRoute element={<ProductsDashBoard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/products/category/:id",
-    element: <ProductsDashBoard/>
+    element: <ProtectedRoute element={<ProductsDashBoard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/cart",
-    element: <CartDashboard />
+    element: <ProtectedRoute element={<CartDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/orders",
-    element: <OrdersDashboard />
+    element: <ProtectedRoute element={<OrdersDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
@@ -70,6 +71,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ToastContainer />
+      <ColdStartNotice />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
