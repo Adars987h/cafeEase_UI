@@ -301,7 +301,9 @@
   justify-content: center;
   gap: var(--space-1);
   height: 120px;
-  background: var(--highlight-subtle);
+  background-color: var(--highlight-subtle);
+  background-size: cover;
+  background-position: center;
 }
 
 .product-card-abbr {

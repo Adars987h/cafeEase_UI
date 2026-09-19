@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
-  IconButton, Switch, Box, Card, Typography, Stack, useMediaQuery,
+  IconButton, Switch, Box, Card, Typography, Stack, useMediaQuery, Avatar,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Edit, Delete } from '@mui/icons-material';
@@ -44,13 +44,21 @@ const ProductTable = ({ products, onEdit, onDelete, onStatusToggle }) => {
             sx={{ p: 2, borderRadius: 2, borderColor: 'divider' }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Box sx={{ minWidth: 0 }}>
-                <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {product.categoryName}
-                </Typography>
+              <Box sx={{ display: 'flex', gap: 1.5, minWidth: 0 }}>
+                <Avatar
+                  src={product.image ? `data:image/jpeg;base64,${product.image}` : undefined}
+                  variant="rounded"
+                >
+                  {product.name.slice(0, 2).toUpperCase()}
+                </Avatar>
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product.categoryName}
+                  </Typography>
+                </Box>
               </Box>
               <Typography variant="body1" sx={{ fontWeight: 500, whiteSpace: 'nowrap' }}>
                 &#8377;{product.price}
@@ -104,7 +112,18 @@ const ProductTable = ({ products, onEdit, onDelete, onStatusToggle }) => {
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id} hover>
-              <TableCell>{product.name}</TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <Avatar
+                    src={product.image ? `data:image/jpeg;base64,${product.image}` : undefined}
+                    variant="rounded"
+                    sx={{ width: 36, height: 36 }}
+                  >
+                    {product.name.slice(0, 2).toUpperCase()}
+                  </Avatar>
+                  {product.name}
+                </Box>
+              </TableCell>
               <TableCell>{product.categoryName}</TableCell>
               <TableCell>{product.description}</TableCell>
               <TableCell>&#8377;{product.price}</TableCell>

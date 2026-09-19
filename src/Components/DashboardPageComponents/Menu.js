@@ -49,9 +49,16 @@ const Menu = ({ product, cartItemsIdToQuantityMap }) => {
 
   return (
     <div className={`product-card${soldOut ? " product-card--soldout" : ""}`}>
-      <div className="product-card-tile">
-        <span className="product-card-abbr">{product.name.slice(0, 2).toUpperCase()}</span>
-        <span className="product-card-tile-label">{product.categoryName}</span>
+      <div
+        className="product-card-tile"
+        style={product.image ? { backgroundImage: `url(data:image/jpeg;base64,${product.image})` } : undefined}
+      >
+        {!product.image && (
+          <>
+            <span className="product-card-abbr">{product.name.slice(0, 2).toUpperCase()}</span>
+            <span className="product-card-tile-label">{product.categoryName}</span>
+          </>
+        )}
         {soldOut && <span className="status-pill status-pill--sold-out product-card-badge">Sold out today</span>}
       </div>
       <div className="product-card-body">

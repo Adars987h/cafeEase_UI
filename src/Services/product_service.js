@@ -22,9 +22,23 @@ export const productListByCategory = async (categoryId) => {
     }
 };
 
+// multipart/form-data so a dish photo can ride along with the text fields --
+// matches how the category endpoints already accept an image.
+const toProductForm = (product) => {
+    const form = new FormData();
+    form.append('name', product.name);
+    form.append('categoryId', product.categoryId);
+    form.append('description', product.description);
+    form.append('price', product.price);
+    if (product.imageFile) {
+        form.append('image', product.imageFile);
+    }
+    return form;
+};
+
 export const addProduct = async (product) => {
     try {
-        const response = await myAxios.post("/product/add", product);
+        const response = await myAxios.post("/product/add", toProductForm(product));
         const data = response.data;
         return data;
     } catch (error) {
@@ -35,7 +49,9 @@ export const addProduct = async (product) => {
 
 export const updateProduct = async (product) => {
     try {
-        const response = await myAxios.post("/product/update", product);
+        const form = toProductForm(product);
+        form.append('id', product.id);
+        const response = await myAxios.post("/product/update", form);
         const data = response.data;
         return data;
     } catch (error) {
