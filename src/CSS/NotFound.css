@@ -1,106 +1,39 @@
-/* NotFound.css */
-.notfound-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
-    background-color: var(--surface-page);
-    text-align: center;
-  }
-  
-  .notfound-content {
-    max-width: 600px;
-  }
-  
-  .notfound-title {
-    font-size: 6rem;
-    color: var(--text-primary);
-    margin: 0;
-    font-weight: 700;
-    animation: bounce 1.5s infinite;
-  }
-  
-  .notfound-subtitle {
-    font-size: 2rem;
-    color: var(--text-secondary);
-    margin: 10px 0;
-  }
-  
-  .notfound-message {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-  }
-  
-  .button-container{
-    display: flex;
-    justify-content: space-around;
-  }
+/* Shared by NotFound and Unauthorized -- both are the same shape (a code,
+   a heading, a line of copy, two ways out), so one definition covers both
+   instead of each page carrying its own stock illustration and layout. */
+.status-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 100vh;
+  padding: var(--space-5);
+  text-align: center;
+  background: var(--surface-page);
+}
 
-  .button-container button {
-    padding: 12px 24px;
-    font-size: 1rem;
-    color: var(--text-primary);
-    background-color: white;
-    border: none;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 25px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button-container button:hover {
-    background-color: var(--accent);
-    color: var(--surface-card);
-  }
-  
-  .notfound-image {
-    margin-top: 30px;
-  }
-  
-  .notfound-image img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  @media (min-width: 768px) {
-    .notfound-container {
-      flex-direction: row;
-    }
-  
-    .notfound-content {
-      margin-right: 50px;
-    }
-  
-    .notfound-image {
-      max-width: 400px;
-    }
-  }
+.status-page-code {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: var(--weight-bold);
+  color: var(--accent);
+}
 
-  @media (max-width: 768px) {
-    /* .notfound-container {
-      flex-direction: row;
-    } */
-  
-    .notfound-content {
-      margin-right: 50px;
-    }
-  
-    .notfound-image {
-      max-width: 200px;
-    }
-  }
-  
-  /* Bounce animation for the 404 title */
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-  
+.status-page-code--danger {
+  color: var(--danger-fg);
+}
+
+.status-page h1 {
+  font-size: var(--text-h1);
+  max-width: 20ch;
+}
+
+.status-page .primary-text {
+  max-width: 46ch;
+}
+
+.status-page .hero-cta-row {
+  justify-content: center;
+  margin-top: var(--space-2);
+}

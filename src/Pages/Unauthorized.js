@@ -1,41 +1,23 @@
-// Unauthorized.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import BannerBackground from "../Assets/home-banner-background.png";
-import StopIcon from "../Assets/stop-icon.png"
-import "../CSS/Unauthorized.css";
+import "../CSS/NotFound.css"; // shared .status-page styles
 
 const Unauthorized = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const goBack = () => {
-        navigate(-1);
-    };
-
-    return (
-        <div id='unauthorized'>
-
-            <div className="home-bannerImage-container">
-                <img src={BannerBackground} alt="" />
-            </div>
-            
-            <div className='stop-icon'>
-                    <img src={StopIcon} alt="" />
-                </div>
-            <div className="unauthorized-container">
-                <h1 className="unauthorized-title">403 - Unauthorized</h1>
-                <p className="unauthorized-message">
-                    Sorry, you don't have permission to access this page.
-                </p>
-                <button className="unauthorized-button" onClick={() => navigate("/")}>
-                    Go to Home
-                </button>
-                <button className="unauthorized-button" onClick={goBack}>
-                    Go Back
-                </button>
-            </div>
-        </div>
-    );
+  return (
+    <div className="status-page">
+      <span className="status-page-code status-page-code--danger">403</span>
+      <h1>You don&#39;t have access to this page</h1>
+      <p className="primary-text">
+        This area is restricted. If you think this is a mistake, sign in with the right account.
+      </p>
+      <div className="hero-cta-row">
+        <button className="primary-button" onClick={() => navigate("/")}>Go to home</button>
+        <button className="secondary-button" onClick={() => navigate(-1)}>Go back</button>
+      </div>
+    </div>
+  );
 };
 
 export default Unauthorized;
