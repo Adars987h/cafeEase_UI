@@ -27,27 +27,27 @@ const router = createBrowserRouter([
 
   {
     path: "/categories",
-    element: <CategoriesDashboard />
+    element: <ProtectedRoute element={<CategoriesDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/products",
-    element: <ProductsDashBoard />
+    element: <ProtectedRoute element={<ProductsDashBoard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/products/category/:id",
-    element: <ProductsDashBoard/>
+    element: <ProtectedRoute element={<ProductsDashBoard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/cart",
-    element: <CartDashboard />
+    element: <ProtectedRoute element={<CartDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
     path: "/orders",
-    element: <OrdersDashboard />
+    element: <ProtectedRoute element={<OrdersDashboard />} allowedRoles={['user', 'admin']} />
   },
 
   {
