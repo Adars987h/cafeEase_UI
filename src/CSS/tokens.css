@@ -191,3 +191,18 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .cold-start-notice__dot { animation: none; }
 }
+
+/* Shared page container. Was declared separately in LandingPage.css and
+   DashboardPage.css with different values, so whichever stylesheet loaded last
+   silently won. One definition. */
+.App {
+  min-height: 100vh;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+@media (max-width: 768px) {
+  .App { padding: 0 var(--space-4); }
+}

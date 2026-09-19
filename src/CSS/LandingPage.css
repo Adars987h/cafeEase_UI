@@ -77,13 +77,6 @@ img {
   height: auto;
 }
 
-.App {
-  min-height: 100vh;
-  width: 85vw;
-  max-width: 1900px;
-  margin: 0rem auto;
-}
-
 body {
   max-width: 100%;
   /* background-color: aqua; */
@@ -95,23 +88,17 @@ body {
 }
 
 #landing-page-nav {
-  
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  position: relative;
-  padding-left: 10px;
-  left: 5vw;
-  right: 5vw;
   align-items: center;
   justify-content: space-between;
-  min-height: 90px;
-  position: fixed;
-  background-color: rgba(255, 255, 255, 0.5);
-  z-index: 1;
-  /* width: 90vw; */
-
-  border: 2px solid var(--border);
-  border-radius: 0px 0px 30px 30px;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
+  gap: var(--space-4);
+  min-height: var(--header-height);
+  padding: 0 var(--space-2);
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border);
 }
 
 .navbar-menu-container {
@@ -122,15 +109,15 @@ body {
 }
 
 .navbar-links-container button {
-  
-  margin-right: 4rem;
-  text-decoration: none;
-  color: black;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background-color: transparent;
+  margin-right: var(--space-5);
+  padding: var(--space-2) 0;
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  background: transparent;
   border: none;
   cursor: pointer;
+  transition: color var(--dur-fast) var(--ease);
 }
 
 .navbar-links-container :hover {
@@ -138,18 +125,15 @@ body {
 }
 
 #primary-button {
-  margin-right: 2rem;
-  padding: 0.9rem 1.75rem;
-  background-color: white;
-  outline: none;
+  padding: var(--space-3) var(--space-5);
+  background: var(--accent);
+  color: var(--text-on-brand);
   border: none;
-  border-radius: 5rem;
-  font-size: 1.1rem;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
   cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
-  box-shadow: 0 0 30px rgba(0, 0, 0,.2);
-
+  transition: background var(--dur-fast) var(--ease);
 }
 
 .navbar-cart-icon {
@@ -157,16 +141,17 @@ body {
 }
 
 #primary-button:hover {
-  background-color: var(--accent);
-  color: var(--surface-sunken);
-
+  background: var(--accent-hover);
 }
 
 
 .home-banner-container {
   position: relative;
-  display: flex;
-  padding-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-7) 0;
 }
 
 .home-bannerImage-container {
@@ -178,45 +163,46 @@ body {
 }
 
 .home-image-section {
-  max-width: 600px;
-  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .home-text-section {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  gap: var(--space-4);
 }
 
 .primary-heading {
-  font-size: clamp(2rem, 5vw, 4rem);
-  color: var(--text-secondary);
-  max-width: 600px;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  max-width: 14ch;
 }
 
 .primary-text {
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  max-width: 500px;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  max-width: 46ch;
   color: var(--text-secondary);
-  margin: 1.5rem 0rem;
+  margin: 0;
 }
 
 .secondary-button {
-  padding: 1rem 2.5rem;
-  background-color: var(--accent);
-  outline: none;
-  border: none;
-  border-radius: 5rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  font-weight: 600;
-  color: white;
-  transition: 0.2s;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--accent);
+  color: var(--text-on-brand);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
 }
 
 .secondary-button svg {
@@ -225,15 +211,15 @@ body {
 }
 
 .secondary-button:hover {
-  background-color: var(--text-secondary);
+  background: var(--accent-hover);
 }
 
 .login-section-container {
-  margin-top: 20rem;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-7) 0;
 }
 
 .login-background-image-container {
@@ -571,4 +557,28 @@ body {
   .login-background-image-container {
     display: none;
   }
+}
+/* Hero stacks below the tablet breakpoint; the decorative blob is hidden
+   rather than left hanging off-canvas at small widths. */
+@media (max-width: 768px) {
+  .home-banner-container {
+    grid-template-columns: 1fr;
+    padding: var(--space-5) 0;
+  }
+
+  .home-bannerImage-container {
+    display: none;
+  }
+
+  .primary-heading {
+    max-width: none;
+  }
+}
+
+/* The decorative blob is absolutely positioned at right:-170px, which pushed
+   the document wider than the viewport. Clip it at the hero rather than relying
+   on overflow-x:hidden on body, which also kills sticky positioning in some
+   browsers and hides real overflow bugs elsewhere. */
+.home-banner-container {
+  overflow: hidden;
 }
