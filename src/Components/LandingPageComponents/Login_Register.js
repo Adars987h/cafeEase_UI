@@ -1,227 +1,284 @@
 import React, { useState } from "react";
-import AboutBackground from "../../Assets/login-background.png";
-import AboutBackgroundImage from "../../Assets/login-background-image.png";
+import LoginPanelImage from "../../Assets/login-background-image.png";
 import { signUp, login, forgotPassword } from "../../Services/user_service";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {jwtDecode} from 'jwt-decode';
-import Cookies from 'js-cookie';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
-
+/**
+ * One surface with a segmented Login / Register toggle instead of two routes,
+ * plus an inline "forgot password" panel on the same shell. The form sits on
+ * paper against a photographic panel so the auth screen still sells the cafe.
+ */
 const Login_Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [contact, setContact] = useState('');
-  const [role, setRole] = useState('');
+  const [mode, setMode] = useState("login"); // "login" | "register" | "forgot"
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const navigate = useNavigate();
 
-
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
-
-    const loginDetails = {
-      email,
-      password
-    };
-
-    login(loginDetails).then((resp) => {
-      const token= Cookies.get('token');
-      var decodedToken="";
-      
-      if (resp) {
-        try {
-          decodedToken = jwtDecode(resp);
-        } catch (error) {
-          console.error('Error decoding JWT:', error);
-        }
+    setSubmitting(true);
+    try {
+      await login({ email, password });
+      const token = Cookies.get("token");
+      const decoded = token ? jwtDecode(token) : null;
+      if (decoded?.role === "admin") {
+        navigate("/admin");
+      } else if (decoded?.role === "user") {
+        navigate("/products");
       }
-      if(decodedToken.role=='user')
-        navigate('/products');
-      else if(decodedToken.role=='admin')
-        navigate('/admin');
-      
-
-    }).catch((error) => {
-      console.log("Error from login :",error);
-    });
+    } catch (error) {
+      console.log("Error from login:", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleForgotPassword =()=>{
-    const map= new Map();
-    map.set('email',email);
-    const payload = Object.fromEntries(map);
-
-    forgotPassword(payload).then((resp)=>{
-      console.log(resp);
-
-      toast.success(resp.message,{
-        position: "bottom-left",
-        autoClose: 500,
-        closeOnClick: true,
-        theme: "dark",
-      });
-    })
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    forgotPassword({ email })
+      .then((resp) => {
+        setResetSent(true);
+        toast.success(resp?.message || "Check your mail for credentials", {
+          position: "bottom-left",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      })
+      .catch(() => {
+        toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      })
+      .finally(() => setSubmitting(false));
   };
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    const payload = { name, email, contactNumber: contact, password };
 
-
-    const signupDetails = new Map();
-    signupDetails.set('name', name);
-    signupDetails.set('email', email);
-    signupDetails.set('contactNumber', contact);
-    signupDetails.set('password', password);
-
-    const payload = Object.fromEntries(signupDetails);
-
-    signUp(payload).then((resp) => {
-      console.log(resp);
-      
-      console.log("Success log");
-      toast.success("User registered successfully",{
-        position: "bottom-left",
-        autoClose: 500,
-        closeOnClick: true,
-        theme: "dark",
-      });
-
-    }).catch((error) => {
-      console.log(error);
-      console.log("Error log")
-      toast.error("Something went wrong",{
-        position: "bottom-left",
-        autoClose: 500,
-        closeOnClick: true,
-        theme: "dark",
-      });
-    })
+    signUp(payload)
+      .then(() => {
+        toast.success("Account created. You can log in now.", {
+          position: "bottom-left",
+          autoClose: 2000,
+          theme: "dark",
+        });
+        setMode("login");
+        setPassword("");
+      })
+      .catch(() => {
+        toast.error("Something went wrong", {
+          position: "bottom-left",
+          autoClose: 2000,
+          theme: "dark",
+        });
+      })
+      .finally(() => setSubmitting(false));
   };
 
-
-  const [action, setAction] = useState('');
-
-  const registerLink = () => {
-    setAction('active');
+  const switchMode = (next) => {
+    setMode(next);
+    setResetSent(false);
   };
-
-  const loginLink = () => {
-    setAction('');
-  };
-
-
 
   return (
-    <div className="login-section-container" >
+    <div className="auth-section-wrapper" id="Login">
+      <div className="auth-card">
+        <div className="auth-form-panel">
+          <div className="auth-card-header">
+            <p className="primary-subheading">Your usual, waiting.</p>
+            <h2>
+              {mode === "forgot" ? "Reset your password" : "Sign in to reorder in two taps"}
+            </h2>
+          </div>
 
-      <div className="login-background-image-container">
-        <img src={AboutBackground} alt="" />
-      </div>
+          {mode !== "forgot" && (
+            <div className="auth-toggle" role="tablist">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "login"}
+                className={`auth-toggle-btn ${mode === "login" ? "auth-toggle-btn--active" : ""}`}
+                onClick={() => switchMode("login")}
+              >
+                Log in
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "register"}
+                className={`auth-toggle-btn ${mode === "register" ? "auth-toggle-btn--active" : ""}`}
+                onClick={() => switchMode("register")}
+              >
+                Register
+              </button>
+            </div>
+          )}
 
-      <div className="login-section-image-container">
-        <img src={AboutBackgroundImage} alt="" />
-      </div>
-
-      <div className={`container ${action}`} id="Login">
-
-        <div className="login">
-          <h1 className="primary-heading">
-            Login.....
-          </h1>
-          <div className="form login-form">
-            
-            
-            <form onSubmit={handleLoginSubmit}>
-              <div>
-                <label htmlFor="email">Email:</label>
+          {mode === "login" && (
+            <form className="auth-form" onSubmit={handleLoginSubmit}>
+              <label className="auth-field">
+                <span>Email</span>
                 <input
                   type="email"
-                  id="login_email"
+                  placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-              </div>
-              <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                  type="password"
-                  id="login_password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-
-              <button type="submit">Login</button>
-
+              </label>
+              <label className="auth-field">
+                <div className="auth-field-label-row">
+                  <span>Password</span>
+                  <button type="button" className="auth-inline-link" onClick={() => switchMode("forgot")}>
+                    Forgot?
+                  </button>
+                </div>
+                <div className="auth-password-input">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="auth-password-toggle"
+                    onClick={() => setShowPassword((s) => !s)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+              </label>
+              <button className="primary-button auth-submit" type="submit" disabled={submitting}>
+                {submitting ? "Signing in..." : "Log in"}
+              </button>
+              <p className="auth-switch-line">
+                New here?{" "}
+                <button type="button" className="auth-inline-link" onClick={() => switchMode("register")}>
+                  Create an account
+                </button>
+              </p>
             </form>
-            <div className="form-links">
-              <div><a href="#login" id="forgot-password" onClick={handleForgotPassword}><p > Forgot Password?</p></a> </div>
-              <div><a href="#login" id="" onClick={registerLink}><p>Don't have an account?</p> </a></div>
-            </div>
-          </div>
-        </div>
+          )}
 
-
-        <div className="registration">
-          <h1 className="primary-heading">
-            Registration....
-          </h1>
-
-          <div className="form register-form">
-            <form onSubmit={handleRegisterSubmit}>
-              <div>
-                <label htmlFor="name">Name:</label>
+          {mode === "register" && (
+            <form className="auth-form" onSubmit={handleRegisterSubmit}>
+              <label className="auth-field">
+                <span>Full name</span>
                 <input
                   type="text"
-                  id="name"
+                  placeholder="Aarav Mehta"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
-              </div>
-              <div>
-                <label htmlFor="email">Email:</label>
+              </label>
+              <label className="auth-field">
+                <span>Email</span>
                 <input
                   type="email"
-                  id="email"
+                  placeholder="aarav.mehta@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-              </div>
-              <div>
-                <label htmlFor="contact">Mobile No.:</label>
+              </label>
+              <label className="auth-field">
+                <span>Contact number</span>
                 <input
-                  type="text"
-                  id="contact"
+                  type="tel"
+                  placeholder="98450 33127"
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
                   required
                 />
-              </div>
-              <div>
-                <label htmlFor="password">Password:</label>
+              </label>
+              <label className="auth-field">
+                <span>Password</span>
+                <div className="auth-password-input">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="&bull;&bull;&bull;&bull;"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="auth-password-toggle"
+                    onClick={() => setShowPassword((s) => !s)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                <span className="auth-field-hint">Use at least 8 characters</span>
+              </label>
+              <button className="primary-button auth-submit" type="submit" disabled={submitting}>
+                {submitting ? "Creating account..." : "Create account"}
+              </button>
+              <p className="auth-switch-line">
+                Already have an account?{" "}
+                <button type="button" className="auth-inline-link" onClick={() => switchMode("login")}>
+                  Log in
+                </button>
+              </p>
+            </form>
+          )}
+
+          {mode === "forgot" && (
+            <form className="auth-form" onSubmit={handleForgotPassword}>
+              <p className="auth-form-intro">
+                Tell us the email on your account and we will send your credentials there.
+              </p>
+              <label className="auth-field">
+                <span>Email</span>
                 <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-              </div>
-
-              <button type="submit">SignUp</button>
+              </label>
+              <button className="primary-button auth-submit" type="submit" disabled={submitting}>
+                {submitting ? "Sending..." : "Send reset link"}
+              </button>
+              {resetSent && (
+                <p className="auth-success-line">
+                  &#10003; Sent. Check {email || "your inbox"} &mdash; including spam.
+                </p>
+              )}
+              <p className="auth-switch-line">
+                <button type="button" className="auth-inline-link" onClick={() => switchMode("login")}>
+                  Back to log in
+                </button>
+              </p>
             </form>
-            <div className="form-links">
-              <div><a href="#login" id="" onClick={loginLink}><p > Already have an account? Click Here</p></a> </div>
-            </div>
-          </div>
+          )}
+        </div>
+
+        <div className="auth-image-panel">
+          <img src={LoginPanelImage} alt="" />
         </div>
       </div>
     </div>
