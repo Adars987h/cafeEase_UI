@@ -6,7 +6,7 @@
     justify-content: center;
     height: 100vh;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: var(--surface-page);
     text-align: center;
   }
   
@@ -16,7 +16,7 @@
   
   .notfound-title {
     font-size: 6rem;
-    color: #343a40;
+    color: var(--text-primary);
     margin: 0;
     font-weight: 700;
     animation: bounce 1.5s infinite;
@@ -24,13 +24,13 @@
   
   .notfound-subtitle {
     font-size: 2rem;
-    color: #6c757d;
+    color: var(--text-secondary);
     margin: 10px 0;
   }
   
   .notfound-message {
     font-size: 1.2rem;
-    color: #6c757d;
+    color: var(--text-secondary);
     margin-bottom: 20px;
   }
   
@@ -42,7 +42,7 @@
   .button-container button {
     padding: 12px 24px;
     font-size: 1rem;
-    color: #000;
+    color: var(--text-primary);
     background-color: white;
     border: none;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -53,8 +53,8 @@
   }
   
   .button-container button:hover {
-    background-color: #fe9e0d;
-    color: #fff;
+    background-color: var(--accent);
+    color: var(--surface-card);
   }
   
   .notfound-image {

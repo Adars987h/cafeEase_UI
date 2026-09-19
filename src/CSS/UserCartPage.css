@@ -9,7 +9,7 @@
 }
 
 .Cart-Card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
@@ -20,7 +20,7 @@
 }
 
 .total-container {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
@@ -31,9 +31,9 @@
 }
 
 .Cart-Card:hover {
-  background-color: #f6f6f6;
+  background-color: var(--surface-sunken);
   box-shadow: none;
-  border: 1px solid #666;
+  border: 1px solid var(--text-secondary);
 }
 
 .left-side {
@@ -60,7 +60,7 @@
 
 .item-quantity {
   margin-bottom: 10px;
-  border: 2px solid rgb(249, 81, 81);
+  border: 2px solid var(--danger-fg);
 }
 
 .place-ordr-btn:disabled {
@@ -82,7 +82,7 @@
 }
 
 .remove-item-btn {
-  background-color: rgb(249, 81, 81);
+  background-color: var(--danger-fg);
   color: white;
   margin: 5px 0 0;
   border: 2px solid white;
@@ -94,8 +94,8 @@
 
 .remove-item-btn:hover {
   background-color: white;
-  color: rgb(249, 81, 81);
-  border: 2px solid rgb(249, 81, 81);
+  color: var(--danger-fg);
+  border: 2px solid var(--danger-fg);
 }
 
 @media (max-width: 880px) {

@@ -6,11 +6,11 @@
   }
   
   #qwe{
-    background-color: #61dafb;
+    background-color: var(--accent);
   }
   
   .App-link {
-    color: #61dafb;
+    color: var(--accent);
   }
   
   

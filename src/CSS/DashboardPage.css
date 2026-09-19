@@ -12,7 +12,7 @@ body {
 }
 
 body {
-  background-color: #f6f6f6;
+  background-color: var(--surface-sunken);
 }
 
 .Home {
@@ -23,13 +23,13 @@ body {
 
 .primary-sub-heading {
   font-size: 35px;
-  color: #fe9e0d;
+  color: var(--accent);
   font-weight: 700;
 }
 
 .primary-heading {
   font-size: 55px;
-  color: #4c4c4c;
+  color: var(--text-secondary);
   font-weight: 900;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 .Card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
@@ -51,9 +51,9 @@ body {
 }
 
 .Card:hover {
-  background-color: #f6f6f6;
+  background-color: var(--surface-sunken);
   box-shadow: none;
-  border: 1px solid #666;
+  border: 1px solid var(--text-secondary);
 }
 
 .addCartOptions {
@@ -64,7 +64,7 @@ body {
 .ProductQuantity {
   width: 60px;
   margin: 5px 5px 0;
-  border: 2px solid #fe9e0d;
+  border: 2px solid var(--accent);
   justify-content: center;
   padding: 5px 10px;
   cursor: pointer;
@@ -73,46 +73,46 @@ body {
 }
 
 .ProductQuantity:focus {
-  border: 2px solid #fe9e0d;
+  border: 2px solid var(--accent);
   outline: none;
 }
 
 .card-tag {
   margin: 5px 0 0;
-  border: 2px solid #fe9e0d;
+  border: 2px solid var(--accent);
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 10px;
 }
 
 .card-tag:hover {
-  background-color: #fe9e0d;
+  background-color: var(--accent);
   color: white;
 }
 
 .ProductName {
   margin: 0;
-  color: #fe9e0d;
+  color: var(--accent);
   font-size: 2em;
 }
 
 .ProductDescription {
   font-size: 0.9em;
-  color: #666;
+  color: var(--text-secondary);
   height: 80px;
   text-overflow: clip;
 }
 
 .ProductPrice {
   font-size: 1.1em;
-  color: #000;
+  color: var(--text-primary);
   font-weight: bold;
   display: inline;
 }
 
 .CategoryName {
   font-size: 0.9em;
-  color: #007bff;
+  color: var(--accent);
 }
 
 .card-container {
@@ -137,7 +137,7 @@ body {
   z-index: 1;
   /* width: 90vw; */
 
-  border: 2px solid #ddd;
+  border: 2px solid var(--border);
   border-radius: 0px 0px 30px 30px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.2);
 
@@ -161,7 +161,7 @@ body {
 }
 
 .navbar-links-container :hover {
-  color: #fe9e0d;
+  color: var(--accent);
 }
 
 #primary-button {
@@ -181,8 +181,8 @@ body {
 }
 
 #primary-button:hover {
-  background-color: #fe9e0d;
-  color: #f6f6f6;
+  background-color: var(--accent);
+  color: var(--surface-sunken);
 
 }
 
@@ -200,10 +200,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   padding: 10px;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: var(--surface-page);
 }
 
 /* Spinner.css */
@@ -220,7 +220,7 @@ body {
 
 .spinner {
   border: 8px solid rgba(0, 0, 0, 0.1);
-  border-top: 8px solid #3498db;
+  border-top: 8px solid var(--accent);
   border-radius: 50%;
   width: 40px;
   height: 40px;

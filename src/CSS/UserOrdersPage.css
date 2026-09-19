@@ -13,7 +13,7 @@
     /* margin-right: 10px; */
     height: 50px;
     width: 710px;
-    border: 2px solid #fe9e0d;
+    border: 2px solid var(--accent);
     border-radius: 15px;
     font-size: medium;
 }
@@ -37,12 +37,12 @@
     height: 50px;
     width: 105px;
     background-color: white;
-    color: #fe9e0d;
+    color: var(--accent);
 }
 
 .search-btn:hover {
     background-color: white;
-    color: #000;
+    color: var(--text-primary);
 }
 
 @media (max-width: 880px) {
@@ -81,7 +81,7 @@
         width: 25%;
         padding: auto;
         color: white;
-        background-color: #fe9e0d;
+        background-color: var(--accent);
     }
 
     .view-order-btn {
