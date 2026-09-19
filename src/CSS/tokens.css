@@ -159,6 +159,26 @@ a {
   color: inherit;
 }
 
+/* Every custom button/select class in this app sets its own background and
+   sizing, but none of them reset the browser's native chrome underneath --
+   plain <button>/<select> elements ship a default border, background, font
+   and appearance (Chrome renders that as a grey/black outset bevel in
+   system font). That default was showing through on top of every custom
+   pill radius and colour, everywhere a component didn't happen to also set
+   `border` and `font` explicitly. Reset once, globally, instead of finding
+   each one individually. */
+button,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
