@@ -98,3 +98,27 @@
         padding: 10px;
     }
 }
+/* The rule above targets .admin-page, but the live layout is .admin-dashboard,
+   so the 150px sidebar never collapsed - on a 375px phone that left 225px of
+   content. Collapse to a single column and run the nav horizontally instead. */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .vertical-navbar {
+    grid-column: 1;
+    height: auto;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-content {
+    grid-column: 1;
+    padding: var(--space-4) var(--space-3);
+  }
+}
