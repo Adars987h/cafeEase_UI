@@ -135,3 +135,54 @@ a {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* Cold-start notice. The demo backend sleeps when idle; this explains the wait
+   rather than leaving a visitor looking at a page that appears broken. */
+.cold-start-notice {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  transform: translateX(-50%);
+  z-index: 1400;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: min(420px, calc(100vw - var(--space-5) * 2));
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.cold-start-notice__dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  animation: cold-start-pulse 1.4s var(--ease) infinite;
+}
+
+.cold-start-notice__title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.cold-start-notice__body {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+@keyframes cold-start-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cold-start-notice__dot { animation: none; }
+}

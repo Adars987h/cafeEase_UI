@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./theme";
+import ColdStartNotice from "./Components/ColdStartNotice";
 import "./CSS/tokens.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -70,6 +71,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ToastContainer />
+      <ColdStartNotice />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
