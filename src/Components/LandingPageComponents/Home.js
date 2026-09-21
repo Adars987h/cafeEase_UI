@@ -6,6 +6,7 @@ import { fetchCategories } from "../../Services/category_service";
 import { productList } from "../../Services/product_service";
 import { getTopSellerToday } from "../../Services/order_service";
 import useParallax from "../../hooks/useParallax";
+import useCursorDrift from "../../hooks/useCursorDrift";
 import useCountUp from "../../hooks/useCountUp";
 
 /**
@@ -32,7 +33,7 @@ const Home = () => {
   const [stats, setStats] = useState(null);
   const [topSeller, setTopSeller] = useState(null);
   const imageParallax = useParallax(0.06);
-  const cardParallax = useParallax(-0.1);
+  const cardDrift = useCursorDrift(22);
 
   useEffect(() => {
     Promise.all([fetchCategories(), productList()])
@@ -86,7 +87,7 @@ const Home = () => {
         <div className="home-image-section">
           <img ref={imageParallax} src={HeroImage} alt="Paneer Capsicum Pizza fresh from the counter" />
           {topSeller && (
-            <div className="hero-floating-card" ref={cardParallax}>
+            <div className="hero-floating-card" ref={cardDrift}>
               <div className="hero-floating-card-text">
                 <span className="hero-floating-card-title">{topSeller.productName}</span>
                 <span className="hero-floating-card-meta">Today&#39;s most ordered</span>

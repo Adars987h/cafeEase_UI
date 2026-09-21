@@ -291,11 +291,32 @@ select.filter-chip {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: border-color var(--dur-fast) var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  animation: card-stagger-in var(--dur-section) var(--ease) backwards;
 }
 
 .product-card:hover {
   border-color: var(--border-strong);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Stagger the first screenful; beyond that the delay would just make cards
+   feel sluggish to arrive, so later cards settle for a plain fade-in. */
+.product-grid > .product-card:nth-child(1) { animation-delay: 0ms; }
+.product-grid > .product-card:nth-child(2) { animation-delay: 60ms; }
+.product-grid > .product-card:nth-child(3) { animation-delay: 120ms; }
+.product-grid > .product-card:nth-child(4) { animation-delay: 60ms; }
+.product-grid > .product-card:nth-child(5) { animation-delay: 120ms; }
+.product-grid > .product-card:nth-child(6) { animation-delay: 180ms; }
+
+@keyframes card-stagger-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card { animation: none; }
 }
 
 .product-card--soldout {
