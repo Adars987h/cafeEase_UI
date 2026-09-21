@@ -1,6 +1,6 @@
 import "../CSS/LandingPage.css";
 import Home from "../Components/LandingPageComponents/Home";
-import Login_Register from "../Components/LandingPageComponents/Login_Register";
+import LoginRegister from "../Components/LandingPageComponents/Login_Register";
 import Category from "../Components/LandingPageComponents/Category";
 import Contact from "../Components/LandingPageComponents/Contact";
 import Footer from "../Components/LandingPageComponents/Footer";
@@ -15,7 +15,7 @@ function LandingPage() {
       <ToastContainer/>
       <Navbar />
       <Home />
-      <Login_Register />
+      <LoginRegister />
       
       <Category />
       <Contact />

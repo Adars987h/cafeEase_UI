@@ -52,6 +52,8 @@
   --text-display: var(--text-hero);
   --ember-600: var(--ce-orange);
   --ember-500: var(--ce-orange-deep);
+  --highlight-subtle: #fff3d6;
+  --highlight-chip: #ffe9ab;
 
   --success-bg: #e2f1ec;
   --success-fg: var(--ce-green);
