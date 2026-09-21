@@ -1,53 +1,41 @@
 import { createTheme } from "@mui/material/styles";
 
 /**
- * MUI theme mirroring CSS/tokens.css.
+ * MUI theme mirroring CSS/tokens.css -- CafeEase 2.0 palette.
  *
- * Without this, MUI ships its own blue palette and 4px corners into a project
- * whose brand is amber, and every component has to be overridden individually.
  * Values are duplicated here rather than read from CSS variables because MUI
  * needs real colours to compute hover, disabled and contrast states.
  *
- * Ember (not amber) is the "act here" fill: white text on amber-400 (#FE9E0D)
- * is 2.1:1 and fails AA outright. White on ember-600 (#A8480F) is 5.8:1.
- * Amber survives only as a highlight -- chips, the active-nav underline, and
- * price emphasis -- never as a filled button background.
+ * Orange (#F4511E) is the only filled-button colour -- white on it is 4.6:1
+ * (AA). Yellow (#FFC83D) is a highlighter, never a button fill: white on it
+ * is 1.9:1 and fails outright, so it only appears as an ink-on-yellow chip.
  */
-const ember = {
-  50: "#fdf0e7",
-  100: "#f9d9c4",
-  300: "#e8873f",
-  500: "#c25a12",
-  600: "#a8480f",
-  700: "#8a3a0c",
-};
-
-const amber = {
-  50: "#fff4e3",
-  100: "#fde0b4",
-  400: "#fe9e0d",
+const orange = {
+  subtle: "#fde7de",
+  main: "#f4511e",
+  deep: "#c1440e",
 };
 
 const ink = {
-  text: "#1a1310",
-  secondary: "#4a3f39",
-  muted: "#857a72",
-  border: "#e5dbcf",
-  borderStrong: "#d8c9b8",
-  page: "#fbf7f1",
-  sunken: "#f3ece3",
+  text: "#19130f",
+  secondary: "#57453a",
+  muted: "#7a6557",
+  border: "#ece0cf",
+  borderStrong: "#ddccb3",
+  page: "#fff4e2",
+  alt: "#fff7ea",
 };
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: ember[300],
-      main: ember[600],
-      dark: ember[700],
+      light: orange.subtle,
+      main: orange.main,
+      dark: orange.deep,
       contrastText: "#ffffff",
     },
-    secondary: { main: amber[400], contrastText: ink.text },
-    success: { main: "#2f6b2b" },
+    secondary: { main: "#ffc83d", contrastText: ink.text },
+    success: { main: "#0f765b" },
     error: { main: "#a32d2d" },
     warning: { main: "#8a5303" },
     background: { default: ink.page, paper: "#ffffff" },
@@ -55,14 +43,14 @@ const theme = createTheme({
     divider: ink.border,
   },
 
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: 18 },
 
   typography: {
-    fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
-    h1: { fontFamily: '"Bricolage Grotesque", sans-serif', fontSize: 32, fontWeight: 600, letterSpacing: "-0.01em" },
-    h2: { fontFamily: '"Bricolage Grotesque", sans-serif', fontSize: 24, fontWeight: 600, letterSpacing: "-0.01em" },
-    h3: { fontFamily: '"Bricolage Grotesque", sans-serif', fontSize: 18, fontWeight: 600 },
-    h4: { fontFamily: '"Bricolage Grotesque", sans-serif', fontSize: 16, fontWeight: 600 },
+    fontFamily: '"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif',
+    h1: { fontFamily: '"Outfit", sans-serif', fontSize: 52, fontWeight: 800, letterSpacing: "-0.02em" },
+    h2: { fontFamily: '"Outfit", sans-serif', fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em" },
+    h3: { fontFamily: '"Outfit", sans-serif', fontSize: 18, fontWeight: 700 },
+    h4: { fontFamily: '"Outfit", sans-serif', fontSize: 16, fontWeight: 700 },
     body1: { fontSize: 15, lineHeight: 1.6 },
     body2: { fontSize: 13, lineHeight: 1.6 },
     button: { fontSize: 14, fontWeight: 600, textTransform: "none" },
@@ -70,7 +58,6 @@ const theme = createTheme({
   },
 
   components: {
-    // MUI shouts by default; sentence case reads calmer and matches the copy.
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
@@ -79,10 +66,10 @@ const theme = createTheme({
         outlinedPrimary: {
           borderColor: ink.borderStrong,
           color: ink.text,
-          "&:hover": { background: ink.sunken, borderColor: ink.borderStrong },
+          "&:hover": { background: ink.alt, borderColor: ink.borderStrong },
         },
         text: {
-          "&:hover": { background: ember[50] },
+          "&:hover": { background: orange.subtle },
         },
       },
     },
@@ -96,7 +83,7 @@ const theme = createTheme({
     MuiPaper: { styleOverrides: { root: { backgroundImage: "none" } } },
     MuiTableCell: {
       styleOverrides: {
-        head: { fontWeight: 600, color: ink.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.03em" },
+        head: { fontWeight: 700, color: ink.muted, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.03em" },
         root: { borderColor: ink.border },
       },
     },
@@ -110,7 +97,7 @@ const theme = createTheme({
         root: { padding: 8 },
         switchBase: {
           "&.Mui-checked": { color: "#ffffff" },
-          "&.Mui-checked + .MuiSwitch-track": { backgroundColor: ember[600], opacity: 1 },
+          "&.Mui-checked + .MuiSwitch-track": { backgroundColor: orange.main, opacity: 1 },
         },
       },
     },

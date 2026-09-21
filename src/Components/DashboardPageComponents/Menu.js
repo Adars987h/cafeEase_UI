@@ -3,6 +3,7 @@ import { handleAddToCart } from "../../Services/cart_service";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiMinus, FiPlus } from "react-icons/fi";
+import { useAuth } from "../../Services/AuthContext";
 
 /**
  * The card is the whole product. Products carry no photo in this schema, so
@@ -18,6 +19,7 @@ const Menu = ({ product, cartItemsIdToQuantityMap }) => {
   const [addedHere, setAddedHere] = useState(false);
   const inCart = addedHere || cartItemsIdToQuantityMap.has(product.id);
   const soldOut = product.status !== "true";
+  const { requireAuth } = useAuth();
 
   useEffect(() => {
     const productQuantity = cartItemsIdToQuantityMap.get(product.id);
@@ -36,7 +38,7 @@ const Menu = ({ product, cartItemsIdToQuantityMap }) => {
     setQuantity((q) => Math.max(1, q + delta));
   };
 
-  const onAdd = async () => {
+  const addForReal = async () => {
     setBusy(true);
     try {
       await handleAddToCart(product.id, quantity);
@@ -45,6 +47,10 @@ const Menu = ({ product, cartItemsIdToQuantityMap }) => {
     } finally {
       setBusy(false);
     }
+  };
+
+  const onAdd = () => {
+    requireAuth(`Log in to add ${product.name} to your cart -- we'll drop it straight in once you're signed in.`, addForReal);
   };
 
   return (

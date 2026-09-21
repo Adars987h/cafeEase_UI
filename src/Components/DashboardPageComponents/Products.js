@@ -5,8 +5,10 @@ import { fetchCart } from "../../Services/cart_service";
 import Menu from "./Menu";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../Services/AuthContext";
 
 const Products = () => {
+  const { isAuthenticated } = useAuth();
   const { id: categoryId } = useParams();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -25,7 +27,11 @@ const Products = () => {
           categoryId == null ? productList() : productListByCategory(categoryId),
           fetchCategories(),
         ]);
-        await setIdToQuantityMapFromCart(setCartItemsIdToQuantityMap);
+        // Guests browse the menu read-only; /cart requires auth, and a
+        // guest's 401 here must not take down the whole page.
+        if (isAuthenticated) {
+          await setIdToQuantityMapFromCart(setCartItemsIdToQuantityMap);
+        }
         setProducts(productsData || []);
         setCategories(categoryData || []);
         setLoading(false);
@@ -36,7 +42,7 @@ const Products = () => {
     };
 
     fetchProducts();
-  }, [categoryId]);
+  }, [categoryId, isAuthenticated]);
 
   const activeCategory = categories.find((c) => String(c.id) === String(categoryId));
 
