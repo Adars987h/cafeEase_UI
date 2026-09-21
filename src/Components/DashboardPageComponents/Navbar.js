@@ -18,14 +18,21 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { logout, getCurrentUser, fetchProfile } from "../../Services/user_service";
 import { fetchCart } from "../../Services/cart_service";
+import { useAuth } from "../../Services/AuthContext";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState(getCurrentUser());
   const navigate = useNavigate();
+  const { isAuthenticated, logout: signOut } = useAuth();
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      setCartCount(0);
+      setUser(null);
+      return;
+    }
     let mounted = true;
     fetchCart()
       .then((cart) => {
@@ -35,7 +42,7 @@ const Navbar = () => {
       .catch(() => {});
     fetchProfile().then((profile) => { if (mounted && profile) setUser(profile); });
     return () => { mounted = false; };
-  }, []);
+  }, [isAuthenticated]);
 
   const menuOptions = [
     { text: "Categories", href: "/categories", icon: <LocalDiningIcon /> },
@@ -45,6 +52,7 @@ const Navbar = () => {
   ];
 
   const handleLogout = () => {
+    signOut();
     logout();
     navigate("/");
     setTimeout(() => {
@@ -86,7 +94,11 @@ const Navbar = () => {
             <span className="nav-user-label">{user.label}</span>
           </div>
         )}
-        <button className="text-button" onClick={handleLogout}>Log out</button>
+        {isAuthenticated ? (
+          <button className="text-button" onClick={handleLogout}>Log out</button>
+        ) : (
+          <NavLink to="/#Login" className="primary-button" style={{ minHeight: 36, padding: "0 var(--space-4)" }}>Log in</NavLink>
+        )}
       </div>
 
       <div className="navbar-menu-container">
